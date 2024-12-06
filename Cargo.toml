@@ -1,0 +1,7 @@
+
+[workspace]
+resolver = '2'
+members = ['cancellations-api']
+
+[profile.release]
+lto = true

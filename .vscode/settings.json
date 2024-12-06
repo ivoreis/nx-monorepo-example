@@ -1,0 +1,6 @@
+{
+  "rust-analyzer.server.extraEnv": {
+    "CARGO_TARGET_DIR": "dist/analyzer"
+  },
+  "rust-analyzer.check.extraArgs": ["--target-dir=dist/analyzer"]
+}
