@@ -5,15 +5,27 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 import { federation } from '@module-federation/vite';
 
+const DEFAULT_PORT = 4200;
+const DEFAULT_HOST = 'localhost';
+const REMOTE_ENTRY_NAME = 'remoteEntry.js';
+const LOCAL_API = 'http://localhost:3000';
+
+function generateEntry(serverName: string, serverPort: number, ssl: boolean) {
+  const proto = ssl ? 'https' : 'http';
+  const entry = `${proto}://${serverName}:${serverPort}/${REMOTE_ENTRY_NAME}`;
+
+  return entry;
+}
+
 export default defineConfig({
   root: __dirname,
   cacheDir: '../node_modules/.vite/cancellations-ui',
   server: {
-    port: 4200,
-    host: 'localhost',
+    port: DEFAULT_PORT,
+    host: DEFAULT_HOST,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3000', // Replace with your API server
+        target: LOCAL_API,
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ''), // Optional: remove '/api' prefix
@@ -21,8 +33,8 @@ export default defineConfig({
     },
   },
   preview: {
-    port: 4200,
-    host: 'localhost',
+    port: DEFAULT_PORT,
+    host: DEFAULT_HOST,
   },
   plugins: [
     federation({
@@ -34,10 +46,16 @@ export default defineConfig({
         remote: {
           type: 'module',
           name: 'remote',
-          entry: 'http://localhost:4200/remoteEntry.js',
+          entry: generateEntry(
+            process.env.SERVER_NAME || DEFAULT_HOST,
+            (process.env.SERVER_PORT &&
+              parseInt(process.env.SERVER_PORT, 10)) ||
+              DEFAULT_PORT,
+            process.env.ENABLE_SSL === 'true'
+          ),
         },
       },
-      filename: 'remoteEntry.js',
+      filename: REMOTE_ENTRY_NAME,
       shared: {
         react: {
           singleton: true,

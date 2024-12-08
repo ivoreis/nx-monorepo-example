@@ -11,10 +11,10 @@
       "options": {
         "commands": [
           {
-            "command": "nx run cancellations-ui:build"
+            "command": "VITE_API_URL=http://localhost:4200/api nx run cancellations-ui:build"
           },
           {
-            "command": "nx run cancellations-ui:serve"
+            "command": "VITE_API_URL=http://localhost:4200/api nx run cancellations-ui:serve"
           }
         ],
         "options": {

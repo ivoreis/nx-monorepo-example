@@ -27,6 +27,25 @@ To install the project dependencies run:
 pnpm install
 ```
 
+## Development
+
+This project also includes a docker-compose file to allow seemless and cross-environments build. You have two ways to run these projects locally:
+
+Natively:
+
+```js
+    nx run cancellations-api:run // run the API
+    nx run cancellations-ui:dev // run the UI
+```
+
+Docker compose:
+
+```js
+    docker compose up
+```
+
+By default, the UI runs on `http://localhost:4200` and the API runs on `http://localhost:3000`.
+
 ## Run tasks
 
 To run tasks with Nx use:
