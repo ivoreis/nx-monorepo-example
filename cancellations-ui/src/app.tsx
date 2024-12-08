@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
-
 // @ts-expect-error: remote component
 import UI, { supportedPlatforms } from 'remote/UI';
+
+const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 export default function App() {
   return (
@@ -24,7 +25,7 @@ function UIPage() {
   return (
     <div>
       <h1>Host Cancellation Page</h1>
-      <UI platform={platform} id={id} />
+      <UI platform={platform} id={id} apiURL={apiBaseUrl} />
     </div>
   );
 }

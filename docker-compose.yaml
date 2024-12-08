@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: cancellations-ui/Dockerfile
+      args:
+        SERVER_NAME: localhost
+        SERVER_PORT: 4200
+        API_URL: http://localhost:4200/api
+        API_PROXY_URL: http://backend:3000
+    ports:
+      - '4200:80'
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+
+  backend:
+    build:
+      context: .
+      dockerfile: cancellations-api/Dockerfile
+    ports:
+      - '3000:3000'

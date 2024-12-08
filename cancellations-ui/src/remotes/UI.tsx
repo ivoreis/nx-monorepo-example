@@ -10,16 +10,17 @@ export type FormData = {
   reason: string;
 };
 
-export function Form() {
+export function Form(props: { apiURL: string }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+  const { apiURL } = props;
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (baseURL: string) => async (data: FormData) => {
     try {
-      const response = await fetch('/api/perform', {
+      const response = await fetch(`${baseURL}/perform`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ export function Form() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form">
+    <form onSubmit={handleSubmit(onSubmit(apiURL))} className="form">
       <div className="form-group">
         <label htmlFor="date">Date</label>
         <input
@@ -65,8 +66,12 @@ export function Form() {
   );
 }
 
-export default function UI(props: { platform: Platform; id: string }) {
-  const { platform, id } = props;
+export default function UI(props: {
+  platform: Platform;
+  id: string;
+  apiURL: string;
+}) {
+  const { platform, id, apiURL } = props;
   return (
     <div className="ui-wrapper">
       <h2>Remote Cancellation Page</h2>
@@ -74,7 +79,7 @@ export default function UI(props: { platform: Platform; id: string }) {
         <p>Platform: {platform}</p>
         <p>ID: {id}</p>
       </div>
-      <Form />
+      <Form apiURL={apiURL} />
     </div>
   );
 }
