@@ -1,7 +1,7 @@
 
 [workspace]
 resolver = '2'
-members = ['cancellations-api']
+members = ['cancellations-api', 'order-lifecycle']
 
 [profile.release]
 lto = true

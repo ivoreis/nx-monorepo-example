@@ -1,0 +1,102 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT id, \n            order_id,\n            action as \"action: ActionType\",\n            status as \"status: TaskStatus\",\n            payload as \"payload: TaskPayload\",\n            max_retries,\n            task_sequence,\n            scheduled_at,\n            created_at, \n            updated_at\n        FROM tasks\n        WHERE id = $1\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "action: ActionType",
+        "type_info": {
+          "Custom": {
+            "name": "action_enum",
+            "kind": {
+              "Enum": [
+                "issue",
+                "activate",
+                "suspend",
+                "update",
+                "terminate",
+                "cancel"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "status: TaskStatus",
+        "type_info": {
+          "Custom": {
+            "name": "status_enum",
+            "kind": {
+              "Enum": [
+                "pending",
+                "in_progress",
+                "completed",
+                "failed"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "payload: TaskPayload",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 5,
+        "name": "max_retries",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "task_sequence",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "scheduled_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "b6ef48952a79d37da45b6810efb0a1080d888c3d7f895e3774a91d17c5d005f6"
+}

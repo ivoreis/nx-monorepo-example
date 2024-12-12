@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        UPDATE tasks \n        SET status = 'failed', idempotency_key = $2, updated_at = NOW()\n        WHERE id = $1 \n        AND (idempotency_key IS NULL OR idempotency_key != $2)\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "c81737ac81fb4ca97c419830fed8eac31ffe30ebc62f970ebbeda950e88516b1"
+}

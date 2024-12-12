@@ -1,0 +1,106 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        UPDATE orders\n        SET state = $1, updated_at = $2\n        WHERE id = $3\n        RETURNING id,\n                state as \"state: OrderState\",\n                country as \"country: Country\",\n                product as \"product: Product\",\n                payload as \"payload: OrderPayload\",\n                created_at,\n                updated_at\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "state: OrderState",
+        "type_info": {
+          "Custom": {
+            "name": "order_state_enum",
+            "kind": {
+              "Enum": [
+                "requested",
+                "issued",
+                "active",
+                "suspended",
+                "terminated",
+                "cancelled"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "country: Country",
+        "type_info": {
+          "Custom": {
+            "name": "country_enum",
+            "kind": {
+              "Enum": [
+                "uk"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "product: Product",
+        "type_info": {
+          "Custom": {
+            "name": "product_enum",
+            "kind": {
+              "Enum": [
+                "car"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "payload: OrderPayload",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 5,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 6,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        {
+          "Custom": {
+            "name": "order_state_enum",
+            "kind": {
+              "Enum": [
+                "requested",
+                "issued",
+                "active",
+                "suspended",
+                "terminated",
+                "cancelled"
+              ]
+            }
+          }
+        },
+        "Timestamptz",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "b95078e5928616267b57d8fcc70d7deb2d0b6eded00db2adea9661c182a66505"
+}

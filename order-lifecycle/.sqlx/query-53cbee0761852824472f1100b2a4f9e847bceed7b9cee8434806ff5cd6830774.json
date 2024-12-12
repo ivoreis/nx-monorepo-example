@@ -1,0 +1,50 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO orders (id, country, product, state, payload, created_at, updated_at)\n        VALUES ($1, $2, $3, $4, $5, NOW(), NOW())\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        {
+          "Custom": {
+            "name": "country_enum",
+            "kind": {
+              "Enum": [
+                "uk"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "product_enum",
+            "kind": {
+              "Enum": [
+                "car"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "order_state_enum",
+            "kind": {
+              "Enum": [
+                "requested",
+                "issued",
+                "active",
+                "suspended",
+                "terminated",
+                "cancelled"
+              ]
+            }
+          }
+        },
+        "Jsonb"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "53cbee0761852824472f1100b2a4f9e847bceed7b9cee8434806ff5cd6830774"
+}
