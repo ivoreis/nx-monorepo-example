@@ -14,9 +14,16 @@ services:
       - backend
     environment:
       - NODE_ENV=production
+    networks:
+      - custom_bridge
   backend:
     build:
       context: .
       dockerfile: cancellations-api/Dockerfile
     ports:
       - '3000:3000'
+    networks:
+      - custom_bridge
+networks:
+  custom_bridge:
+    driver: bridge

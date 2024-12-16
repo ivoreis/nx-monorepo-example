@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use std::net::SocketAddr;
 
+use common::process_external_request;
+
 // Define the structure for FormData, matching the UI
 #[derive(Serialize, Deserialize, Clone)]
 struct FormData {
@@ -15,7 +17,8 @@ async fn main() {
     // Create Axum router
     let app = Router::new()
         .route("/", get(root))
-        .route("/perform", post(perform));
+        .route("/perform", post(perform))
+        .route("/external", get(external));
 
     // Define the server address
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
@@ -46,6 +49,19 @@ async fn perform(Json(payload): Json<FormData>) -> Json<String> {
         "Request received for date: {}, reason: {}",
         payload.date, payload.reason
     ))
+}
+
+async fn external() -> Json<serde_json::Value> {
+    // Call the external library function
+    match process_external_request().await {
+        Ok(response) => {
+            Json(json!({"message": format!("External processing successful: {}", response)}))
+        }
+        Err(err) => {
+            eprintln!("Error in external processing: {}", err);
+            Json(json!({"message":format!("External processing failed: {}", err)}))
+        }
+    }
 }
 
 // Signal handler for graceful shutdown
